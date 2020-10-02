@@ -3,13 +3,14 @@ import {
   AppBar,
   Button,
   Collapse,
+  Divider,
   FormControlLabel,
   Grid,
   Radio,
   RadioGroup,
-  // Step,
-  // Stepper,
-  // StepLabel,
+  Step,
+  Stepper,
+  StepLabel,
   Toolbar,
   Typography,
 } from '@material-ui/core';
@@ -20,10 +21,12 @@ import { animateScroll as scroll } from 'react-scroll';
 import { StyledCard } from '../src/styles/Card.js';
 import { StyledDiv, QuestionDiv } from '../src/styles/Div.js';
 import { methods, methodsComplete } from '../src/data/methods.js';
+import { steps } from '../src/data/steps.js';
+import { QontoConnector, QontoStepIcon } from '../src/styles/Stepper.js';
 
-// const steps = ['Hypothesis', 'Materials', 'Methods', 'Results', 'Conclusion'];
 export default class Home extends React.Component {
   state = {
+    activeStep: 0,
     error: null,
     radio: null,
     hired: false,
@@ -50,7 +53,7 @@ export default class Home extends React.Component {
 
   handleCheckAnswer() {
     this.state.radio === 'alcohol'
-      ? this.setState({ hired: true, error: null })
+      ? this.setState({ hired: true, error: null, activeStep: 1 })
       : this.setState({ error: 1 });
   }
 
@@ -58,11 +61,11 @@ export default class Home extends React.Component {
     if (this.state.materials === 1) {
       return;
     }
-    this.setState({ materials: parseInt(target.id) });
-  }
-
-  handleUpdateMethods(event, previousIndex, nextIndex, fromId, toId) {
-    this.setState({ methods: reorder(this.state.methods, previousIndex, nextIndex) });
+    if (parseInt(target.id) === 1) {
+      this.setState({ materials: 1, activeStep: 2 });
+    } else {
+      this.setState({ materials: parseInt(target.id) });
+    }
   }
 
   handleCheckMethods() {
@@ -73,7 +76,11 @@ export default class Home extends React.Component {
       }
       curr++;
     }
-    this.setState({ methods: methodsComplete, methodsFlag: true });
+    this.setState({ methods: methodsComplete, methodsFlag: true, activeStep: 3 });
+  }
+
+  handleUpdateMethods(event, previousIndex, nextIndex, fromId, toId) {
+    this.setState({ methods: reorder(this.state.methods, previousIndex, nextIndex) });
   }
 
   handleUpdateBorder(value) {
@@ -101,34 +108,57 @@ export default class Home extends React.Component {
         <StyledDiv>
           <AppBar>
             <Toolbar>
-              <Typography variant='h5' style={{ flexGrow: '1' }}>
-                The Bread Project
-              </Typography>
-              {/* <Stepper
+              <Typography variant='h5'>The Bread Project</Typography>
+              <Stepper
                 activeStep={this.state.activeStep}
-                style={{ backgroundColor: 'inherit', flexGrow: '1' }}
+                connector={<QontoConnector />}
+                style={{
+                  width: '40%',
+                  height: '1vh',
+                  backgroundColor: 'inherit',
+                  position: 'absolute',
+                  left: '30%',
+                }}
               >
-                {steps.map((label) => (
+                {steps.map((label, i) => (
                   <Step key={label}>
-                    <StepLabel>{label}</StepLabel>
+                    <StepLabel StepIconComponent={QontoStepIcon}>
+                      <Typography
+                        variant='body2'
+                        style={
+                          this.state.activeStep > i
+                            ? { color: 'black' }
+                            : { color: '#eaeaf0' }
+                        }
+                      >
+                        {label}
+                      </Typography>
+                    </StepLabel>
                   </Step>
                 ))}
-              </Stepper> */}
-              <Button color='inherit'>About Me</Button>
+              </Stepper>
+              <Button
+                color='inherit'
+                style={{ padding: '2vh', margin: '0', position: 'absolute', right: '0' }}
+              >
+                About Me
+              </Button>
             </Toolbar>
           </AppBar>
 
           <Grid container alignItems='left' direction='column'>
             <Grid container alignItems='center' direction='column'>
-              <Typography variant='h3'>Congratulations!</Typography>
+              <Typography variant='h3' style={{ marginBottom: '20px' }}>
+                Congratulations!
+              </Typography>
             </Grid>
-            <Typography>
+            <Typography style={{ marginBottom: '10px' }}>
               You've been shortlisted as Professor X's 342nd intern. This is a once in a
               lifetime opportunity, so be sure to cherish it! Professor X has been working
               on some groundbreaking stuff, answering questions like:
             </Typography>
             <Grid container alignItems='center' direction='column'>
-              <Typography>
+              <Typography style={{ marginBottom: '10px' }}>
                 <b>
                   Which household cleaner (water, vinegar, and ethanol) is the most
                   effective at inhibiting microbial growth on bread?
@@ -148,6 +178,7 @@ export default class Home extends React.Component {
                     cleaned with _______ when compared to the others?
                   </b>
                 </Typography>
+                <Divider style={{ marginTop: '1vh' }} />
               </QuestionDiv>
               <Grid container alignItems='center' direction='column'>
                 <RadioGroup
@@ -214,7 +245,8 @@ export default class Home extends React.Component {
                         and got a few of his pages mixed up... Which is the most correct
                         set of materials for this experiment?
                       </b>
-                    </Typography>
+                    </Typography>{' '}
+                    <Divider style={{ marginTop: '1vh' }} />
                   </QuestionDiv>
                   <Grid container justify='space-evenly'>
                     <img
@@ -262,22 +294,27 @@ export default class Home extends React.Component {
                     <Typography>
                       <b>Now, help him order the methods.</b>
                     </Typography>
+                    <Divider style={{ marginTop: '1vh' }} />
                   </QuestionDiv>
-                  <Typography>
-                    <Reorder
-                      reorderId='methods'
-                      onReorder={this.handleUpdateMethods.bind(this)}
-                      disabled={this.state.methodsFlag}
-                    >
-                      {this.state.methods}
-                    </Reorder>
-                  </Typography>
-                  <Collapse in={this.state.methodsFlag}>
-                    <Alert severity='success' style={{ marginTop: '10px' }}>
-                      Multiple slices of bread were used for each treatment so we can be
-                      more confident in our answers.
-                    </Alert>
-                  </Collapse>
+                  <div>
+                    <Typography>
+                      <Reorder
+                        reorderId='methods'
+                        onReorder={this.handleUpdateMethods.bind(this)}
+                        disabled={this.state.methodsFlag}
+                      >
+                        {this.state.methods}
+                      </Reorder>
+                    </Typography>
+                  </div>
+                  <div>
+                    <Collapse in={this.state.methodsFlag}>
+                      <Alert severity='success' style={{ marginTop: '10px' }}>
+                        Multiple slices of bread were used for each treatment so we can be
+                        more confident in our answers.
+                      </Alert>
+                    </Collapse>
+                  </div>
                 </StyledCard>
               </Grid>
             </Collapse>
@@ -292,6 +329,7 @@ export default class Home extends React.Component {
                         pages. Help him piece it together.
                       </b>
                     </Typography>
+                    <Divider style={{ marginTop: '1vh' }} />
                   </QuestionDiv>
                   <Grid container justify='space-evenly'>
                     <div>
