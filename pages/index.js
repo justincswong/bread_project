@@ -77,10 +77,10 @@ export default class Home extends React.Component {
   }
 
   handleUpdateBorder(value) {
-    const color = value === 1 ? '#60b565' : 'black';
+    const color = value === 1 ? '#60b565' : 'red';
     return this.state.materials === value
       ? { border: `5px solid ${color}` }
-      : { border: `5px solid white` };
+      : { border: `5px solid black` };
   }
 
   render() {
@@ -131,7 +131,7 @@ export default class Home extends React.Component {
               <Typography>
                 <b>
                   Which household cleaner (water, vinegar, and ethanol) is the most
-                  effective at prohibiting microbial growth on bread?
+                  effective at inhibiting microbial growth on bread?
                 </b>
               </Typography>
             </Grid>
@@ -144,7 +144,7 @@ export default class Home extends React.Component {
                 <Typography>
                   <b>
                     If stronger cleaners kill more bacteria on a surface, then we will
-                    expect to see less microbrial growth on bread rubbed on a surface
+                    expect to see less microbial growth on bread rubbed on a surface
                     cleaned with _______ when compared to the others?
                   </b>
                 </Typography>
@@ -245,11 +245,18 @@ export default class Home extends React.Component {
                       style={this.handleUpdateBorder(3)}
                     ></img>
                   </Grid>
+                  <Collapse in={this.state.materials === 1}>
+                    <Alert severity='success' style={{ marginTop: '10px' }}>
+                      In addition to water, vinegar, and alcohol, you'll also need 3
+                      slices of bread, 12 Ziploc bags, a sharpie, masking tape, paper
+                      towels, and a knife. Don't forget your apron!
+                    </Alert>
+                  </Collapse>
                 </StyledCard>
               </Grid>
             </Collapse>
             <Collapse in={this.state.materials === 1}>
-              <Grid container alignItems='center' justify='center' direction='column'>
+              <Grid container alignItems='left' direction='column'>
                 <StyledCard>
                   <QuestionDiv>
                     <Typography>
@@ -265,15 +272,17 @@ export default class Home extends React.Component {
                       {this.state.methods}
                     </Reorder>
                   </Typography>
+                  <Collapse in={this.state.methodsFlag}>
+                    <Alert severity='success' style={{ marginTop: '10px' }}>
+                      Multiple slices of bread were used for each treatment so we can be
+                      more confident in our answers.
+                    </Alert>
+                  </Collapse>
                 </StyledCard>
               </Grid>
             </Collapse>
             <Collapse in={this.state.methodsFlag}>
               <Grid container alignItems='center' justify='center' direction='column'>
-                <Typography>
-                  Multiple slices of bread were used for each treatment so we can be more
-                  confident in our answers.
-                </Typography>
                 <StyledCard>
                   <QuestionDiv>
                     <Typography>
