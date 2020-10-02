@@ -1,209 +1,319 @@
-import Head from 'next/head'
+import Head from 'next/head';
+import {
+  AppBar,
+  Button,
+  Collapse,
+  FormControlLabel,
+  Grid,
+  Radio,
+  RadioGroup,
+  // Step,
+  // Stepper,
+  // StepLabel,
+  Toolbar,
+  Typography,
+} from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
+import Puzzle from 'react-image-puzzle';
+import Reorder, { reorder } from 'react-reorder';
+import { animateScroll as scroll } from 'react-scroll';
+import { StyledCard } from '../src/styles/Card.js';
+import { StyledDiv, QuestionDiv } from '../src/styles/Div.js';
+import { methods, methodsComplete } from '../src/data/methods.js';
 
-export default function Home() {
-  return (
-    <div className="container">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+// const steps = ['Hypothesis', 'Materials', 'Methods', 'Results', 'Conclusion'];
+export default class Home extends React.Component {
+  state = {
+    error: null,
+    radio: null,
+    // hired: false,
+    hired: true,
+    // materials: 0,
+    materials: 1,
+    methods: methods,
+    // methodsFlag: false,
+    methodsFlag: true,
+    modelY: 0,
+    breadSetup: 0,
+  };
 
-      <main>
-        <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+  componentDidUpdate() {
+    if (!this.state.methodsFlag) {
+      this.handleCheckMethods();
+    }
+    scroll.scrollToBottom({ smooth: true, duration: '1000' });
+  }
 
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
+  handleRadioChange(value) {
+    this.setState({ radio: value });
+  }
 
-        <div className="grid">
-          <a href="https://nextjs.org/docs" className="card">
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+  handleCheckAnswer() {
+    this.state.radio === 'alcohol'
+      ? this.setState({ hired: true, error: null })
+      : this.setState({ error: 1 });
+  }
 
-          <a href="https://nextjs.org/learn" className="card">
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
+  handleCheckMaterials(target) {
+    if (this.state.materials === 1) {
+      return;
+    }
+    this.setState({ materials: parseInt(target.id) });
+  }
 
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className="card"
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
+  handleUpdateMethods(event, previousIndex, nextIndex, fromId, toId) {
+    this.setState({ methods: reorder(this.state.methods, previousIndex, nextIndex) });
+  }
 
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="card"
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
+  handleCheckMethods() {
+    let curr = 1;
+    for (const step of this.state.methods) {
+      if (parseInt(step.key) != curr) {
+        return;
+      }
+      curr++;
+    }
+    this.setState({ methods: methodsComplete, methodsFlag: true });
+  }
 
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="logo" />
-        </a>
-      </footer>
+  handleUpdateBorder(value) {
+    const color = value === 1 ? '#60b565' : 'black';
+    return this.state.materials === value
+      ? { border: `5px solid ${color}` }
+      : { border: `5px solid white` };
+  }
 
-      <style jsx>{`
-        .container {
-          min-height: 100vh;
-          padding: 0 0.5rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
+  render() {
+    return (
+      <div
+        style={{
+          marginTop: '8vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Head>
+          <title>Help a Breader Out</title>
+          <link rel='icon' href='/favicon.ico' />
+        </Head>
 
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
+        <StyledDiv>
+          <AppBar>
+            <Toolbar>
+              <Typography variant='h5' style={{ flexGrow: '1' }}>
+                The Bread Project
+              </Typography>
+              {/* <Stepper
+                activeStep={this.state.activeStep}
+                style={{ backgroundColor: 'inherit', flexGrow: '1' }}
+              >
+                {steps.map((label) => (
+                  <Step key={label}>
+                    <StepLabel>{label}</StepLabel>
+                  </Step>
+                ))}
+              </Stepper> */}
+              <Button color='inherit'>About Me</Button>
+            </Toolbar>
+          </AppBar>
 
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        footer img {
-          margin-left: 0.5rem;
-        }
-
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        a {
-          color: inherit;
-          text-decoration: none;
-        }
-
-        .title a {
-          color: #0070f3;
-          text-decoration: none;
-        }
-
-        .title a:hover,
-        .title a:focus,
-        .title a:active {
-          text-decoration: underline;
-        }
-
-        .title {
-          margin: 0;
-          line-height: 1.15;
-          font-size: 4rem;
-        }
-
-        .title,
-        .description {
-          text-align: center;
-        }
-
-        .description {
-          line-height: 1.5;
-          font-size: 1.5rem;
-        }
-
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          font-size: 1.1rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-            DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-        }
-
-        .grid {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-wrap: wrap;
-
-          max-width: 800px;
-          margin-top: 3rem;
-        }
-
-        .card {
-          margin: 1rem;
-          flex-basis: 45%;
-          padding: 1.5rem;
-          text-align: left;
-          color: inherit;
-          text-decoration: none;
-          border: 1px solid #eaeaea;
-          border-radius: 10px;
-          transition: color 0.15s ease, border-color 0.15s ease;
-        }
-
-        .card:hover,
-        .card:focus,
-        .card:active {
-          color: #0070f3;
-          border-color: #0070f3;
-        }
-
-        .card h3 {
-          margin: 0 0 1rem 0;
-          font-size: 1.5rem;
-        }
-
-        .card p {
-          margin: 0;
-          font-size: 1.25rem;
-          line-height: 1.5;
-        }
-
-        .logo {
-          height: 1em;
-        }
-
-        @media (max-width: 600px) {
-          .grid {
-            width: 100%;
-            flex-direction: column;
-          }
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
-    </div>
-  )
+          <Grid container alignItems='left' direction='column'>
+            <Grid container alignItems='center' direction='column'>
+              <Typography variant='h3'>Congratulations!</Typography>
+            </Grid>
+            <Typography>
+              You've been shortlisted as Professor X's 342nd intern. This is a once in a
+              lifetime opportunity, so be sure to cherish it! Professor X has been working
+              on some groundbreaking stuff, answering questions like:
+            </Typography>
+            <Grid container alignItems='center' direction='column'>
+              <Typography>
+                <b>
+                  Which household cleaner (water, vinegar, and ethanol) is the most
+                  effective at prohibiting microbial growth on bread?
+                </b>
+              </Typography>
+            </Grid>
+            <Typography>
+              Before we decide to formally hire you, we must make sure you're fit for the
+              task. What would be an appropriate hypothesis for Professor X's experiment?
+            </Typography>
+            <StyledCard>
+              <QuestionDiv>
+                <Typography>
+                  <b>
+                    If stronger cleaners kill more bacteria on a surface, then we will
+                    expect to see less microbrial growth on bread rubbed on a surface
+                    cleaned with _______ when compared to the others?
+                  </b>
+                </Typography>
+              </QuestionDiv>
+              <Grid container alignItems='center' direction='column'>
+                <RadioGroup
+                  name='hypothesisChoices'
+                  value={this.state.radio}
+                  onChange={(e) => this.handleRadioChange(e.target.value)}
+                  row
+                >
+                  <FormControlLabel
+                    value='water'
+                    control={<Radio />}
+                    label='Water'
+                    disabled={this.state.hired}
+                  />
+                  <FormControlLabel
+                    value='vinegar'
+                    control={<Radio />}
+                    label='Vinegar'
+                    disabled={this.state.hired}
+                  />
+                  <FormControlLabel
+                    value='alcohol'
+                    control={<Radio />}
+                    label='Alcohol'
+                    disabled={this.state.hired}
+                  />
+                </RadioGroup>
+                <Button
+                  variant='contained'
+                  color='primary'
+                  onClick={() => (this.state.radio ? this.handleCheckAnswer() : null)}
+                  disabled={this.state.hired}
+                >
+                  Check Answer
+                </Button>
+                <Collapse in={this.state.error === 1 || this.state.hired}>
+                  <Alert
+                    severity={this.state.hired ? 'success' : 'error'}
+                    style={{ marginTop: '10px' }}
+                  >
+                    {this.state.hired ? "Great, You're Hired!" : 'Try Again'}
+                  </Alert>
+                </Collapse>
+              </Grid>
+            </StyledCard>
+            <Collapse in={this.state.hired}>
+              <Grid container alignItems='left' direction='column'>
+                <Typography>
+                  As you already know, Professor X is <s>one of</s> the world's greatest
+                  researcher<s>s</s>. However, his organizational skills are not the best.
+                </Typography>
+                <Typography>
+                  Not a problem though, that's why we hired you! Your job is to help
+                  Professor X organize his work so he can hand it in on time to a
+                  well-known scientific journal; you've probably heard of it - The
+                  Integrative Biology Journal.
+                </Typography>
+                <Typography>Let's get to it!</Typography>
+                <StyledCard>
+                  <QuestionDiv>
+                    <Typography>
+                      <b>
+                        Professor X was working on multiple experiments at the same time
+                        and got a few of his pages mixed up... Which is the most correct
+                        set of materials for this experiment?
+                      </b>
+                    </Typography>
+                  </QuestionDiv>
+                  <Grid container justify='space-evenly'>
+                    <img
+                      src='/materials_bread.jpg'
+                      alt='bread materials'
+                      id='1'
+                      onClick={(e) => this.handleCheckMaterials(e.target)}
+                      width='300'
+                      height='300'
+                      style={this.handleUpdateBorder(1)}
+                    ></img>
+                    <img
+                      src='/materials_calibration.jpg'
+                      alt='calibration materials'
+                      id='2'
+                      onClick={(e) => this.handleCheckMaterials(e.target)}
+                      width='300'
+                      height='300'
+                      style={this.handleUpdateBorder(2)}
+                    ></img>
+                    <img
+                      src='/materials_cake.jpg'
+                      alt='cake materials'
+                      id='3'
+                      onClick={(e) => this.handleCheckMaterials(e.target)}
+                      width='300'
+                      height='300'
+                      style={this.handleUpdateBorder(3)}
+                    ></img>
+                  </Grid>
+                </StyledCard>
+              </Grid>
+            </Collapse>
+            <Collapse in={this.state.materials === 1}>
+              <Grid container alignItems='center' justify='center' direction='column'>
+                <StyledCard>
+                  <QuestionDiv>
+                    <Typography>
+                      <b>Now, help him order the methods.</b>
+                    </Typography>
+                  </QuestionDiv>
+                  <Typography>
+                    <Reorder
+                      reorderId='methods'
+                      onReorder={this.handleUpdateMethods.bind(this)}
+                      disabled={this.state.methodsFlag}
+                    >
+                      {this.state.methods}
+                    </Reorder>
+                  </Typography>
+                </StyledCard>
+              </Grid>
+            </Collapse>
+            <Collapse in={this.state.methodsFlag}>
+              <Grid container alignItems='center' justify='center' direction='column'>
+                <Typography>
+                  Multiple slices of bread were used for each treatment so we can be more
+                  confident in our answers.
+                </Typography>
+                <StyledCard>
+                  <QuestionDiv>
+                    <Typography>
+                      <b>
+                        Professor X wanted some large print outs of his work but his
+                        printer was too small, so he decided to print them in multiple
+                        pages. Help him piece it together.
+                      </b>
+                    </Typography>
+                  </QuestionDiv>
+                  <Grid container justify='space-evenly'>
+                    <div>
+                      <Puzzle
+                        image='/model_y.jpg'
+                        level='2'
+                        onDone={() => this.setState({ modelY: 1 })}
+                      ></Puzzle>
+                      <Collapse in={this.state.modelY}>
+                        <Typography>Model Y</Typography>
+                      </Collapse>
+                    </div>
+                    <div>
+                      <Puzzle
+                        image='/bread_setup.jpg'
+                        level='2'
+                        onDone={() => this.setState({ breadSetup: 1 })}
+                      ></Puzzle>
+                      <Collapse in={this.state.breadSetup}>
+                        <Typography>Bread Setup</Typography>
+                      </Collapse>
+                    </div>
+                  </Grid>
+                  {/* ANOVA, Bar Graph, Point Graph of Means, Tukey Test, Tabulated Results */}
+                  {/* implement skip for class reasons */}
+                </StyledCard>
+              </Grid>
+            </Collapse>
+          </Grid>
+        </StyledDiv>
+      </div>
+    );
+  }
 }
