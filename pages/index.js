@@ -36,8 +36,10 @@ export default class Home extends React.Component {
     methods: methods,
     methodsFlag: false,
     // methodsFlag: true,
-    modelY: 0,
-    breadSetup: 0,
+    distribution: 0,
+    boxplot: 0,
+    stats: 0,
+    // stats: 1,
   };
 
   componentDidUpdate() {
@@ -310,8 +312,9 @@ export default class Home extends React.Component {
                   <div>
                     <Collapse in={this.state.methodsFlag}>
                       <Alert severity='success' style={{ marginTop: '10px' }}>
-                        Multiple slices of bread were used for each treatment so we can be
-                        more confident in our answers.
+                        Multiple slices of bread were used for each treatment to minimize
+                        errors. Percent cover was chosen as the measure due to limitations
+                        of equipment for observing microbe growth.
                       </Alert>
                     </Collapse>
                   </div>
@@ -331,30 +334,105 @@ export default class Home extends React.Component {
                     </Typography>
                     <Divider style={{ marginTop: '1vh' }} />
                   </QuestionDiv>
-                  <Grid container justify='space-evenly'>
-                    <div>
-                      <Puzzle
-                        image='/model_y.jpg'
-                        level='2'
-                        onDone={() => this.setState({ modelY: 1 })}
-                      ></Puzzle>
-                      <Collapse in={this.state.modelY}>
-                        <Typography>Model Y</Typography>
-                      </Collapse>
-                    </div>
-                    <div>
-                      <Puzzle
-                        image='/bread_setup.jpg'
-                        level='2'
-                        onDone={() => this.setState({ breadSetup: 1 })}
-                      ></Puzzle>
-                      <Collapse in={this.state.breadSetup}>
-                        <Typography>Bread Setup</Typography>
-                      </Collapse>
-                    </div>
+                  <Grid container alignItems='center' direction='column'>
+                    <Puzzle
+                      image='/bread_residual.png'
+                      level='2'
+                      size={500}
+                      onDone={() => this.setState({ distribution: 1 })}
+                    ></Puzzle>
+                    <Collapse
+                      in={this.state.distribution}
+                      style={{ marginBottom: '20px' }}
+                    >
+                      <Typography>
+                        Figure 1. The plotted residuals of the data collected from all
+                        treatment groups. (n=12)
+                      </Typography>
+                    </Collapse>
+                    <Collapse in={this.state.distribution}>
+                      <Grid container alignItems='center' direction='column'>
+                        <Puzzle
+                          image='/bread_boxplot.png'
+                          level='2'
+                          size={500}
+                          onDone={() => this.setState({ boxplot: 1 })}
+                        ></Puzzle>
+                        <Collapse
+                          in={this.state.boxplot}
+                          style={{ marginBottom: '20px' }}
+                        >
+                          <Typography>
+                            Figure 2. A boxplot comparing the percent cover of mold across
+                            all treatment groups. The mean of each treatment is indicated
+                            by the red diamond. (n=3 for each treatment group)
+                          </Typography>
+                        </Collapse>
+                      </Grid>
+                    </Collapse>
+                    <Collapse in={this.state.boxplot}>
+                      <Grid container alignItems='center' direction='column'>
+                        <Puzzle
+                          image='/bread_stats.png'
+                          level='2'
+                          size={500}
+                          onDone={() => this.setState({ stats: 1, activeStep: 4 })}
+                        ></Puzzle>
+                        <Collapse in={this.state.stats}>
+                          <Typography>
+                            Table 1. Results of the statistical tests performed on the
+                            dataset. ANOVA tests for differences in means, Shapiro-Wilk
+                            tests for normality, Levene's test for equal variance. (α =
+                            0.05)
+                          </Typography>
+                        </Collapse>
+                      </Grid>
+                    </Collapse>
                   </Grid>
-                  {/* ANOVA, Bar Graph, Point Graph of Means, Tukey Test, Tabulated Results */}
-                  {/* implement skip for class reasons */}
+                  <div>
+                    <Collapse in={this.state.stats}>
+                      <Alert severity='success' style={{ marginTop: '10px' }}>
+                        Different cleaning agents were used to clean a countertop to see
+                        how it affects microbe growth on bread. The purpose of this
+                        experiment was to determine the best cleaning agent. The overall
+                        percent cover average was 29.2% 95%CI(22.5%, 35.78%) with group
+                        averages of 55% 95%CI(11.4%, 98.6%) for the control; 50.8%
+                        95%CI(0%, 100%) for the water; 4.2% 95%CI(1.2%, 7.2%) for the
+                        vinegar; and 6.7% 95%CI(3.6%, 9.7%) for the alcohol. There is no
+                        statistically significant difference between the treatments and
+                        their effects on percent cover of microbe growth. (p-value = 0.13)
+                      </Alert>
+                    </Collapse>
+                  </div>
+                </StyledCard>
+              </Grid>
+            </Collapse>
+            <Collapse in={this.state.stats}>
+              <Grid container alignItems='center' justify='center' direction='column'>
+                <StyledCard>
+                  <QuestionDiv>
+                    <Typography>
+                      <b>Conclusion here.</b>
+                    </Typography>
+                    <Divider style={{ marginTop: '1vh' }} />
+                  </QuestionDiv>
+                  <Alert
+                    severity='success'
+                    style={{ marginTop: '10px', marginBottom: '10px' }}
+                  >
+                    Thanks for your help. Click the button below so Professor X can mail
+                    it in!
+                  </Alert>
+                  <Grid container alignItems='center' justify='center' direction='column'>
+                    <Button
+                      variant='contained'
+                      color='primary'
+                      onClick={() => (this.state.radio ? this.handleCheckAnswer() : null)}
+                      disabled={this.state.hired}
+                    >
+                      Next
+                    </Button>
+                  </Grid>
                 </StyledCard>
               </Grid>
             </Collapse>
