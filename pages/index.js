@@ -36,10 +36,9 @@ export default class Home extends React.Component {
     methods: methods,
     methodsFlag: false,
     // methodsFlag: true,
-    distribution: 0,
     boxplot: 0,
-    stats: 0,
-    // stats: 1,
+    barplot: 0,
+    // barplot: 1,
   };
 
   componentDidUpdate() {
@@ -155,21 +154,22 @@ export default class Home extends React.Component {
               </Typography>
             </Grid>
             <Typography style={{ marginBottom: '10px' }}>
-              You've been shortlisted as Professor X's 342nd intern. This is a once in a
-              lifetime opportunity, so be sure to cherish it! Professor X has been working
-              on some groundbreaking stuff, answering questions like:
+              Professor X wants to make you his 342nd helper! This is a once in a lifetime
+              opportunity, so you're really lucky! Professor X has worked on some
+              important stuff, answering questions like:
             </Typography>
             <Grid container alignItems='center' direction='column'>
               <Typography style={{ marginBottom: '10px' }}>
                 <b>
                   Which household cleaner (water, vinegar, and ethanol) is the most
-                  effective at inhibiting microbial growth on bread?
+                  effective at stopping mold grow on bread?
                 </b>
               </Typography>
             </Grid>
             <Typography>
-              Before we decide to formally hire you, we must make sure you're fit for the
-              task. What would be an appropriate hypothesis for Professor X's experiment?
+              Before we can officially make you our helper, we have to make sure you're
+              fit for the job. What would be an appropriate hypothesis for Professor X's
+              experiment?
             </Typography>
             <StyledCard>
               <QuestionDiv>
@@ -233,10 +233,9 @@ export default class Home extends React.Component {
                   researcher<s>s</s>. However, his organizational skills are not the best.
                 </Typography>
                 <Typography>
-                  Not a problem though, that's why we hired you! Your job is to help
-                  Professor X organize his work so he can hand it in on time to a
-                  well-known scientific journal; you've probably heard of it - The
-                  Integrative Biology Journal.
+                  No problem though, that's why we picked you! You can help Professor X
+                  organize his work so he can hand it in to a well-known scientific
+                  journal; you've probably heard of it - The Integrative Biology Journal.
                 </Typography>
                 <Typography>Let's get to it!</Typography>
                 <StyledCard>
@@ -244,7 +243,7 @@ export default class Home extends React.Component {
                     <Typography>
                       <b>
                         Professor X was working on multiple experiments at the same time
-                        and got a few of his pages mixed up... Which is the most correct
+                        and got a few of his notes mixed up... Which is the most correct
                         set of materials for this experiment?
                       </b>
                     </Typography>{' '}
@@ -294,7 +293,10 @@ export default class Home extends React.Component {
                 <StyledCard>
                   <QuestionDiv>
                     <Typography>
-                      <b>Now, help him order the methods.</b>
+                      <b>
+                        I guess his methods section is out of order too. Help him sort it
+                        out.
+                      </b>
                     </Typography>
                     <Divider style={{ marginTop: '1vh' }} />
                   </QuestionDiv>
@@ -312,9 +314,13 @@ export default class Home extends React.Component {
                   <div>
                     <Collapse in={this.state.methodsFlag}>
                       <Alert severity='success' style={{ marginTop: '10px' }}>
-                        Multiple slices of bread were used for each treatment to minimize
-                        errors. Percent cover was chosen as the measure due to limitations
-                        of equipment for observing microbe growth.
+                        There are 4 treatment groups: control, water, vinegar, and
+                        alcohol. The control group lets us see how the bread would
+                        normally mold if we didn't rub it on any surfaces. Multiple slices
+                        of bread were used for each treatment to minimize error and let us
+                        trust that our results are not due to chance. Percent cover was
+                        chosen because it would be the most accurate measure based on the
+                        limitations of equipment in a non-lab setting.
                       </Alert>
                     </Collapse>
                   </div>
@@ -328,91 +334,75 @@ export default class Home extends React.Component {
                     <Typography>
                       <b>
                         Professor X wanted some large print outs of his work but his
-                        printer was too small, so he decided to print them in multiple
+                        printer was too small, so he decided to print them on multiple
                         pages. Help him piece it together.
                       </b>
                     </Typography>
                     <Divider style={{ marginTop: '1vh' }} />
                   </QuestionDiv>
                   <Grid container alignItems='center' direction='column'>
-                    <Puzzle
-                      image='/bread_residual.png'
-                      level='2'
-                      size={500}
-                      onDone={() => this.setState({ distribution: 1 })}
-                    ></Puzzle>
-                    <Collapse
-                      in={this.state.distribution}
-                      style={{ marginBottom: '20px' }}
-                    >
-                      <Typography>
-                        Figure 1. The plotted residuals of the data collected from all
-                        treatment groups. (n=12)
-                      </Typography>
-                    </Collapse>
-                    <Collapse in={this.state.distribution}>
-                      <Grid container alignItems='center' direction='column'>
-                        <Puzzle
-                          image='/bread_boxplot.png'
-                          level='2'
-                          size={500}
-                          onDone={() => this.setState({ boxplot: 1 })}
-                        ></Puzzle>
-                        <Collapse
-                          in={this.state.boxplot}
-                          style={{ marginBottom: '20px' }}
-                        >
-                          <Typography>
-                            Figure 2. A boxplot comparing the percent cover of mold across
-                            all treatment groups. The mean of each treatment is indicated
-                            by the red diamond. (n=3 for each treatment group)
-                          </Typography>
-                        </Collapse>
-                      </Grid>
-                    </Collapse>
+                    <Grid container alignItems='center' direction='column'>
+                      <Puzzle
+                        image='/bread_boxplot.png'
+                        level='2'
+                        size={500}
+                        onDone={() => this.setState({ boxplot: 1 })}
+                      ></Puzzle>
+                      <Collapse in={this.state.boxplot} style={{ marginBottom: '20px' }}>
+                        <Typography>
+                          Figure 1. This is a boxplot that compares the percent cover of
+                          mold across all treatment groups. The mean of each treatment is
+                          indicated by the red diamond. (n=3 for each treatment group)
+                        </Typography>
+                      </Collapse>
+                    </Grid>
                     <Collapse in={this.state.boxplot}>
                       <Grid container alignItems='center' direction='column'>
                         <Puzzle
-                          image='/bread_stats.png'
+                          image='/bread_barplot.png'
                           level='2'
                           size={500}
-                          onDone={() => this.setState({ stats: 1, activeStep: 4 })}
+                          onDone={() => this.setState({ barplot: 1, activeStep: 4 })}
                         ></Puzzle>
-                        <Collapse in={this.state.stats}>
+                        <Collapse in={this.state.barplot}>
                           <Typography>
-                            Table 1. Results of the statistical tests performed on the
-                            dataset. ANOVA tests for differences in means, Shapiro-Wilk
-                            tests for normality, Levene's test for equal variance. (α =
-                            0.05)
+                            Figure 2. The mean and error of each treatment group is
+                            plotted. There is overlap between each treatment group.
                           </Typography>
                         </Collapse>
                       </Grid>
                     </Collapse>
                   </Grid>
                   <div>
-                    <Collapse in={this.state.stats}>
+                    <Collapse in={this.state.barplot}>
                       <Alert severity='success' style={{ marginTop: '10px' }}>
-                        Different cleaning agents were used to clean a countertop to see
-                        how it affects microbe growth on bread. The purpose of this
-                        experiment was to determine the best cleaning agent. The overall
-                        percent cover average was 29.2% 95%CI(22.5%, 35.78%) with group
-                        averages of 55% 95%CI(11.4%, 98.6%) for the control; 50.8%
-                        95%CI(0%, 100%) for the water; 4.2% 95%CI(1.2%, 7.2%) for the
-                        vinegar; and 6.7% 95%CI(3.6%, 9.7%) for the alcohol. There is no
-                        statistically significant difference between the treatments and
-                        their effects on percent cover of microbe growth. (p-value = 0.13)
+                        The overall percent cover average was 29.2% and the group averages
+                        were 55% for the control, 50.8% for the water, 4.2% for the
+                        vinegar, and 6.7% for the alcohol. There was no difference between
+                        the treatments and their effects on mold growth. (p-value = 0.13)
                       </Alert>
                     </Collapse>
                   </div>
                 </StyledCard>
               </Grid>
             </Collapse>
-            <Collapse in={this.state.stats}>
+            <Collapse in={this.state.barplot}>
               <Grid container alignItems='center' justify='center' direction='column'>
                 <StyledCard>
                   <QuestionDiv>
                     <Typography>
-                      <b>Conclusion here.</b>
+                      <b>
+                        #Different cleaning agents were used to clean a countertop to see
+                        how it affects mold growth on bread. The purpose of this
+                        experiment was to determine the best cleaning agent. # The
+                        experiment was conducted to determine the most effective household
+                        cleaner for inhibiting microbial growth on bread through wiping
+                        bread samples on a surface cleaned with water, alcohol or alcohol.
+                        Bread samples rubbed on a surface cleaned with vinegar had the
+                        least percentage cover of mold, 4.2% on average. Hence, vinegar is
+                        more effective at inhibiting microbial growth on bread than water
+                        or alcohol.
+                      </b>
                     </Typography>
                     <Divider style={{ marginTop: '1vh' }} />
                   </QuestionDiv>
@@ -420,8 +410,8 @@ export default class Home extends React.Component {
                     severity='success'
                     style={{ marginTop: '10px', marginBottom: '10px' }}
                   >
-                    Thanks for your help. Click the button below so Professor X can mail
-                    it in!
+                    Great! You've organized everything, I called Professor X over for you
+                    already. You just need to hand it over to him.
                   </Alert>
                   <Grid container alignItems='center' justify='center' direction='column'>
                     <Button
@@ -430,7 +420,7 @@ export default class Home extends React.Component {
                       onClick={() => (this.state.radio ? this.handleCheckAnswer() : null)}
                       disabled={this.state.hired}
                     >
-                      Next
+                      Hand Over to Professor X
                     </Button>
                   </Grid>
                 </StyledCard>
