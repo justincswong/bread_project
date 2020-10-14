@@ -6,6 +6,7 @@ import {
   Divider,
   FormControlLabel,
   Grid,
+  Modal,
   Radio,
   RadioGroup,
   Step,
@@ -14,6 +15,7 @@ import {
   Toolbar,
   Typography,
 } from '@material-ui/core';
+import { Replay } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
 import Puzzle from 'react-image-puzzle';
 import Reorder, { reorder } from 'react-reorder';
@@ -30,15 +32,13 @@ export default class Home extends React.Component {
     error: null,
     radio: null,
     hired: false,
-    // hired: true,
     materials: 0,
-    // materials: 1,
     methods: methods,
     methodsFlag: false,
-    // methodsFlag: true,
     boxplot: 0,
     barplot: 0,
-    // barplot: 1,
+    open: false,
+    easterEgg: 342,
   };
 
   componentDidUpdate() {
@@ -91,6 +91,85 @@ export default class Home extends React.Component {
       : { border: `5px solid black` };
   }
 
+  handleStepperClick(i) {
+    switch (i) {
+      case 1:
+        this.setState({
+          activeStep: i,
+          radio: 'alcohol',
+          hired: true,
+          materials: 0,
+          methods: methods,
+          methodsFlag: false,
+          boxplot: 0,
+          barplot: 0,
+        });
+        break;
+      case 2:
+        this.setState({
+          activeStep: i,
+          radio: 'alcohol',
+          hired: true,
+          materials: 1,
+          methods: methods,
+          methodsFlag: false,
+          boxplot: 0,
+          barplot: 0,
+        });
+        break;
+      case 3:
+        this.setState({
+          activeStep: i,
+          radio: 'alcohol',
+          hired: true,
+          materials: 1,
+          methods: methodsComplete,
+          methodsFlag: true,
+          boxplot: 0,
+          barplot: 0,
+        });
+        break;
+      case 4:
+        this.setState({
+          activeStep: i,
+          radio: 'alcohol',
+          hired: true,
+          materials: 1,
+          methods: methodsComplete,
+          methodsFlag: true,
+          boxplot: 1,
+          barplot: 1,
+        });
+        break;
+      default:
+        this.setState({
+          activeStep: 0,
+          error: null,
+          radio: null,
+          hired: false,
+          materials: 0,
+          methods: methods,
+          methodsFlag: false,
+          boxplot: 0,
+          barplot: 0,
+        });
+    }
+  }
+
+  displayEasterEgg() {
+    const num = this.state.easterEgg.toString();
+    const last = this.state.easterEgg.toString().substr(-1);
+    if (last === '1') {
+      return num + 'st';
+    } else if (last === '2') {
+      return num + 'nd';
+    } else if (last === '3') {
+      return num + 'rd';
+    } else {
+      return num + 'th';
+    }
+  }
+
   render() {
     return (
       <div
@@ -123,7 +202,10 @@ export default class Home extends React.Component {
               >
                 {steps.map((label, i) => (
                   <Step key={label}>
-                    <StepLabel StepIconComponent={QontoStepIcon}>
+                    <StepLabel
+                      StepIconComponent={QontoStepIcon}
+                      onClick={() => this.handleStepperClick(i)}
+                    >
                       <Typography
                         variant='body2'
                         style={
@@ -142,7 +224,7 @@ export default class Home extends React.Component {
                 color='inherit'
                 style={{ padding: '2vh', margin: '0', position: 'absolute', right: '0' }}
               >
-                About Me
+                ADVANCED
               </Button>
             </Toolbar>
           </AppBar>
@@ -154,15 +236,15 @@ export default class Home extends React.Component {
               </Typography>
             </Grid>
             <Typography style={{ marginBottom: '10px' }}>
-              Professor X wants to make you his 342nd helper! This is a once in a lifetime
-              opportunity, so you're really lucky! Professor X has worked on some
-              important stuff, answering questions like:
+              Professor X wants to make you his {this.displayEasterEgg()} helper! This is
+              a once in a lifetime opportunity, so you're really lucky! Professor X has
+              worked on some important stuff, answering questions like:
             </Typography>
             <Grid container alignItems='center' direction='column'>
               <Typography style={{ marginBottom: '10px' }}>
                 <b>
-                  Which household cleaner (water, vinegar, and ethanol) is the most
-                  effective at stopping mold grow on bread?
+                  Which household cleaner (water, vinegar, and ethanol) is the best at
+                  stopping mould grow on bread?
                 </b>
               </Typography>
             </Grid>
@@ -176,8 +258,8 @@ export default class Home extends React.Component {
                 <Typography>
                   <b>
                     If stronger cleaners kill more bacteria on a surface, then we will
-                    expect to see less microbial growth on bread rubbed on a surface
-                    cleaned with _______ when compared to the others?
+                    expect to see less mould grow on bread rubbed on a surface cleaned
+                    with _______ when compared to the others.
                   </b>
                 </Typography>
                 <Divider style={{ marginTop: '1vh' }} />
@@ -246,7 +328,7 @@ export default class Home extends React.Component {
                         and got a few of his notes mixed up... Which is the most correct
                         set of materials for this experiment?
                       </b>
-                    </Typography>{' '}
+                    </Typography>
                     <Divider style={{ marginTop: '1vh' }} />
                   </QuestionDiv>
                   <Grid container justify='space-evenly'>
@@ -316,11 +398,12 @@ export default class Home extends React.Component {
                       <Alert severity='success' style={{ marginTop: '10px' }}>
                         There are 4 treatment groups: control, water, vinegar, and
                         alcohol. The control group lets us see how the bread would
-                        normally mold if we didn't rub it on any surfaces. Multiple slices
-                        of bread were used for each treatment to minimize error and let us
-                        trust that our results are not due to chance. Percent cover was
-                        chosen because it would be the most accurate measure based on the
-                        limitations of equipment in a non-lab setting.
+                        normally mould if we didn't rub it on any surfaces. Multiple
+                        slices of bread were used for each treatment to minimize error and
+                        help us build trust that our results are not due to chance.
+                        Percent cover was chosen because it would be the most accurate
+                        measure based on the limitations of equipment in a non-lab
+                        setting.
                       </Alert>
                     </Collapse>
                   </div>
@@ -350,9 +433,10 @@ export default class Home extends React.Component {
                       ></Puzzle>
                       <Collapse in={this.state.boxplot} style={{ marginBottom: '20px' }}>
                         <Typography>
-                          Figure 1. This is a boxplot that compares the percent cover of
-                          mold across all treatment groups. The mean of each treatment is
-                          indicated by the red diamond. (n=3 for each treatment group)
+                          Figure 1. This is a boxplot that gives us an idea what our data
+                          looks like. The average percent cover of mould for each
+                          treatment is shown by the red diamond. (n=3 for each treatment
+                          group)
                         </Typography>
                       </Collapse>
                     </Grid>
@@ -366,8 +450,10 @@ export default class Home extends React.Component {
                         ></Puzzle>
                         <Collapse in={this.state.barplot}>
                           <Typography>
-                            Figure 2. The mean and error of each treatment group is
-                            plotted. There is overlap between each treatment group.
+                            Figure 2. The average amount of mould of each treatment group
+                            is shown. Smaller black lines means the data was closer
+                            together in value, which is a good thing. There is overlap
+                            between each treatment group.
                           </Typography>
                         </Collapse>
                       </Grid>
@@ -376,10 +462,11 @@ export default class Home extends React.Component {
                   <div>
                     <Collapse in={this.state.barplot}>
                       <Alert severity='success' style={{ marginTop: '10px' }}>
-                        The overall percent cover average was 29.2% and the group averages
-                        were 55% for the control, 50.8% for the water, 4.2% for the
-                        vinegar, and 6.7% for the alcohol. There was no difference between
-                        the treatments and their effects on mold growth. (p-value = 0.13)
+                        The overall average of percent cover was 29.2% and the group
+                        averages were 55% for the control, 50.8% for the water, 4.2% for
+                        the vinegar, and 6.7% for the alcohol. We did some math and found
+                        there was no difference between the treatments and their effects
+                        on mould growth.
                       </Alert>
                     </Collapse>
                   </div>
@@ -392,16 +479,15 @@ export default class Home extends React.Component {
                   <QuestionDiv>
                     <Typography>
                       <b>
-                        #Different cleaning agents were used to clean a countertop to see
-                        how it affects mold growth on bread. The purpose of this
-                        experiment was to determine the best cleaning agent. # The
-                        experiment was conducted to determine the most effective household
-                        cleaner for inhibiting microbial growth on bread through wiping
-                        bread samples on a surface cleaned with water, alcohol or alcohol.
-                        Bread samples rubbed on a surface cleaned with vinegar had the
-                        least percentage cover of mold, 4.2% on average. Hence, vinegar is
-                        more effective at inhibiting microbial growth on bread than water
-                        or alcohol.
+                        The experiment was performed to find which household cleaner is
+                        the best at stopping mould growth on bread that has been wiped on
+                        a surface cleaned with water, alcohol, or vinegar. However, the
+                        experiment found there was no difference between the cleaners and
+                        their effects on mould growth. Therefore, any one of the household
+                        cleaners is not any more effective than others. Further research
+                        should be done with this experiment where temperature and humidity
+                        are controlled and with a larger sample size to increase the trust
+                        in the results.
                       </b>
                     </Typography>
                     <Divider style={{ marginTop: '1vh' }} />
@@ -417,8 +503,7 @@ export default class Home extends React.Component {
                     <Button
                       variant='contained'
                       color='primary'
-                      onClick={() => (this.state.radio ? this.handleCheckAnswer() : null)}
-                      disabled={this.state.hired}
+                      onClick={() => this.setState({ open: true })}
                     >
                       Hand Over to Professor X
                     </Button>
@@ -426,6 +511,44 @@ export default class Home extends React.Component {
                 </StyledCard>
               </Grid>
             </Collapse>
+            <Modal
+              open={this.state.open}
+              onClose={() => this.setState({ open: false })}
+              aria-labelledby='simple-modal-title'
+              aria-describedby='simple-modal-description'
+            >
+              <StyledCard
+                style={{
+                  width: '100%',
+                  maxWidth: '50vw',
+                  maxHeight: '100%',
+                  position: 'fixed',
+                  top: '50%',
+                  left: '25%',
+                  transform: 'translate(0, -50%)',
+                  overflowY: 'auto',
+                }}
+              >
+                <Grid container alignItems='center' direction='column'>
+                  <Grid item>
+                    Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+                  </Grid>
+                  <Grid item>
+                    <Button
+                      onClick={() => {
+                        this.handleStepperClick(0);
+                        this.setState({
+                          open: false,
+                          easterEgg: this.state.easterEgg + 1,
+                        });
+                      }}
+                    >
+                      <Replay />
+                    </Button>
+                  </Grid>
+                </Grid>
+              </StyledCard>
+            </Modal>
           </Grid>
         </StyledDiv>
       </div>
