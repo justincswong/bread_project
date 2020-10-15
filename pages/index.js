@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import {
   AppBar,
   Button,
@@ -185,10 +186,48 @@ export default class Home extends React.Component {
           <link rel='icon' href='/favicon.ico' />
         </Head>
 
+        <footer
+          style={{
+            backgroundColor: '#F8F8F8',
+            borderTop: '1px solid #E7E7E7',
+            textAlign: 'center',
+            padding: '1vh',
+            position: 'fixed',
+            left: '0',
+            bottom: '-1vh',
+            height: '5vh',
+            width: '100%',
+            zIndex: 2,
+          }}
+        >
+          <Typography>Created for BIOL 342 by Ellen Lee and Justin Wong</Typography>
+        </footer>
+
         <StyledDiv>
           <AppBar>
             <Toolbar>
-              <Typography variant='h5'>The Bread Project</Typography>
+              <Button
+                color='inherit'
+                style={{
+                  padding: '2vh',
+                  margin: '0',
+                  position: 'absolute',
+                  left: '0',
+                  textTransform: 'none',
+                }}
+              >
+                <Typography
+                  variant='h5'
+                  onClick={() => {
+                    this.handleStepperClick(0);
+                    this.setState({
+                      open: false,
+                    });
+                  }}
+                >
+                  The Bread Project
+                </Typography>
+              </Button>
               <Stepper
                 activeStep={this.state.activeStep}
                 connector={<QontoConnector />}
@@ -204,6 +243,7 @@ export default class Home extends React.Component {
                   <Step key={label}>
                     <StepLabel
                       StepIconComponent={QontoStepIcon}
+                      style={{ cursor: 'pointer' }}
                       onClick={() => this.handleStepperClick(i)}
                     >
                       <Typography
@@ -224,7 +264,9 @@ export default class Home extends React.Component {
                 color='inherit'
                 style={{ padding: '2vh', margin: '0', position: 'absolute', right: '0' }}
               >
-                ADVANCED
+                <Link href='/advanced'>
+                  <Typography variant='body2'>ADVANCED</Typography>
+                </Link>
               </Button>
             </Toolbar>
           </AppBar>
