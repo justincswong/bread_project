@@ -55,20 +55,20 @@ export default class Home extends React.Component {
         <StyledDiv>
           <AppBar>
             <Toolbar>
-              <Button
-                color='inherit'
-                style={{
-                  padding: '2vh',
-                  margin: '0',
-                  position: 'absolute',
-                  left: '0',
-                  textTransform: 'none',
-                }}
-              >
-                <Link href='/'>
+              <Link href='/'>
+                <Button
+                  color='inherit'
+                  style={{
+                    padding: '2vh',
+                    margin: '0',
+                    position: 'absolute',
+                    left: '0',
+                    textTransform: 'none',
+                  }}
+                >
                   <Typography variant='h5'>The Bread Project</Typography>
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             </Toolbar>
           </AppBar>
 

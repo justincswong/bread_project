@@ -260,14 +260,19 @@ export default class Home extends React.Component {
                   </Step>
                 ))}
               </Stepper>
-              <Button
-                color='inherit'
-                style={{ padding: '2vh', margin: '0', position: 'absolute', right: '0' }}
-              >
-                <Link href='/advanced'>
+              <Link href='/advanced'>
+                <Button
+                  color='inherit'
+                  style={{
+                    padding: '2vh',
+                    margin: '0',
+                    position: 'absolute',
+                    right: '0',
+                  }}
+                >
                   <Typography variant='body2'>ADVANCED</Typography>
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             </Toolbar>
           </AppBar>
 
