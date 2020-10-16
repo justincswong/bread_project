@@ -359,12 +359,12 @@ export default class Home extends React.Component {
               <Grid container alignItems='left' direction='column'>
                 <Typography>
                   As you already know, Professor X is <s>one of</s> the world's greatest
-                  researcher<s>s</s>. However, his organizational skills are not the best.
+                  researcher<s>s</s>. However, he is a little messy.
                 </Typography>
                 <Typography>
                   No problem though, that's why we picked you! You can help Professor X
-                  organize his work so he can hand it in to a well-known scientific
-                  journal; you've probably heard of it - The Integrative Biology Journal.
+                  sort his work so he can hand it in to a well-known scientific journal;
+                  you've probably heard of it - The Integrative Biology Journal.
                 </Typography>
                 <Typography>Let's get to it!</Typography>
                 <StyledCard>
@@ -543,7 +543,7 @@ export default class Home extends React.Component {
                     severity='success'
                     style={{ marginTop: '10px', marginBottom: '10px' }}
                   >
-                    Great! You've organized everything, I called Professor X over for you
+                    Great! You've sorted everything, I called Professor X over for you
                     already. You just need to hand it over to him.
                   </Alert>
                   <Grid container alignItems='center' justify='center' direction='column'>
