@@ -2,9 +2,9 @@ import { ListItem } from '@material-ui/core';
 
 export const methods = [
   <ListItem key='3' button>
-    3. Use a paper towel to clean the first plot with water, the second plot with vinegar,
-    and the third plot with isopropyl alcohol. These are your test plots. Let them dry
-    before moving on to the next step.
+    3. Use a paper towel to clean the first area with water, the second area with vinegar,
+    and the third area with isopropyl alcohol. These are your test areas/plots. Let them
+    dry before moving on to the next step.
   </ListItem>,
   <ListItem key='2' button>
     2. Use masking tape to divide your space into 3 equal sized areas/plots.
@@ -24,7 +24,7 @@ export const methods = [
     slices.
   </ListItem>,
   <ListItem key='6' button>
-    6. Over the course of 4 weeks, percent cover will be measured.
+    6. Over the next 4 weeks, percent cover will be measured.
   </ListItem>,
   <ListItem key='1' button>
     1. Clear off some space on your counter top, about a 30 cm square.
@@ -39,9 +39,9 @@ export const methodsComplete = [
     2. Use masking tape to divide your space into 3 equal sized areas/plots.
   </ListItem>,
   <ListItem key='3'>
-    3. Use a paper towel to clean the first plot with water, the second plot with vinegar,
-    and the third plot with isopropyl alcohol. These are your test plots. Let them dry
-    before moving on to the next step.
+    3. Use a paper towel to clean the first area with water, the second area with vinegar,
+    and the third area with isopropyl alcohol. These are your test areas/plots. Let them
+    dry before moving on to the next step.
   </ListItem>,
   <ListItem key='4'>
     4. Using clean hands, a clean knife, and a clean cutting surface, take 3 slices of
@@ -57,7 +57,5 @@ export const methodsComplete = [
     there should be 9 Ziploc bags. Take the remaining 3 squares of bread and seal it into
     three separate Ziploc bags without touching the counter. Label these as controls.
   </ListItem>,
-  <ListItem key='6'>
-    6. Over the course of 4 weeks, percent cover will be measured.
-  </ListItem>,
+  <ListItem key='6'>6. Over the next 4 weeks, percent cover will be measured.</ListItem>,
 ];

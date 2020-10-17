@@ -308,7 +308,7 @@ export default class Home extends React.Component {
                 </Typography>
               </Grid>
               <Typography>
-                Before we can officially make you our helper, we have to make sure you're
+                Before we can officially make you his helper, we have to make sure you're
                 fit for the job. What would be an appropriate hypothesis for Professor X's
                 experiment?
               </Typography>
@@ -422,7 +422,7 @@ export default class Home extends React.Component {
                     <Collapse in={this.state.materials === 1}>
                       <Alert severity='success' style={{ marginTop: '10px' }}>
                         In addition to water, vinegar, and alcohol, you'll also need 3
-                        slices of bread, 12 Ziploc bags, a sharpie, masking tape, paper
+                        slices of bread, 12 Ziploc bags, a Sharpie, masking tape, paper
                         towels, and a knife. Don't forget your apron!
                       </Alert>
                     </Collapse>
@@ -458,11 +458,10 @@ export default class Home extends React.Component {
                           There are 4 treatment groups: control, water, vinegar, and
                           alcohol. The control group lets us see how the bread would
                           normally mould if we didn't rub it on any surfaces. Multiple
-                          slices of bread were used for each treatment to minimize error
-                          and help us build trust that our results are not due to chance.
+                          slices of bread were used for each treatment to reduce error and
+                          help us build trust that our results are not due to chance.
                           Percent cover was chosen because it would be the most accurate
-                          measure based on the limitations of equipment in a non-lab
-                          setting.
+                          measure based on our equipment in a non-lab setting.
                         </Alert>
                       </Collapse>
                     </div>
@@ -527,7 +526,7 @@ export default class Home extends React.Component {
                           The overall average of percent cover was 29.2% and the group
                           averages were 55% for the control, 50.8% for the water, 4.2% for
                           the vinegar, and 6.7% for the alcohol. We did some math and
-                          found there was no difference between the treatments and their
+                          found there was no difference between the cleaners and their
                           effects on mould growth.
                         </Alert>
                       </Collapse>
