@@ -50,6 +50,7 @@ export default class Home extends React.Component {
     barplot: 0,
     open: false,
     easterEgg: 342,
+    videoEnded: false,
   };
 
   componentDidUpdate() {
@@ -597,7 +598,25 @@ export default class Home extends React.Component {
                 >
                   <Grid container alignItems='center' direction='column'>
                     <Grid item>
-                      Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+                      <video
+                        width='270'
+                        height='480'
+                        autoPlay
+                        onEnded={() => this.setState({ videoEnded: true })}
+                      >
+                        <source src='/professor.mp4' type='video/mp4' />
+                      </video>
+                    </Grid>
+                    <Grid item>
+                      <Collapse in={this.state.videoEnded}>
+                        <Alert
+                          severity='error'
+                          style={{ marginTop: '10px', marginBottom: '10px' }}
+                        >
+                          We forgot to mention... Professor X is really clumsy. Can you
+                          help him again?
+                        </Alert>
+                      </Collapse>
                     </Grid>
                     <Grid item>
                       <Button
@@ -606,6 +625,7 @@ export default class Home extends React.Component {
                           this.setState({
                             open: false,
                             easterEgg: this.state.easterEgg + 1,
+                            videoEnded: false,
                           });
                         }}
                       >
